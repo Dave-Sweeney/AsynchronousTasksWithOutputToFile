@@ -53,6 +53,7 @@ namespace AsynchronousTasksWithOutputToFile
 
             await Task.WhenAll(tasks);
 
+
             Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
         }
@@ -60,7 +61,8 @@ namespace AsynchronousTasksWithOutputToFile
 
     public class AsyncFileAccess
     {
-        private const string _filePath = @"C:\Users\david\AppData\local\async.txt";
+        
+        private string _filePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).ToString() + @"\async.txt";
         private static object fileLock = new object();
 
         public AsyncFileAccess()
@@ -77,7 +79,6 @@ namespace AsynchronousTasksWithOutputToFile
         {
             lock(fileLock)
             {
-                
                 FileStream destFile = new FileStream(destinationFilePath,
                                                     FileMode.Create,
                                                     FileAccess.Write);
@@ -106,6 +107,7 @@ namespace AsynchronousTasksWithOutputToFile
             {
                 Thread.Sleep(GetDelay());
                 long lineCounter = 0L;
+
                 var reader = new StreamReader(_filePath);
 
                 using (reader)
